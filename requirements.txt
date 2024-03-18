@@ -8,3 +8,6 @@ pydantic==2.6.1
 xgboost>=2.0.3
 statsmodels>=0.14.1
 graphviz
+tqdm
+optuna
+lightgbm

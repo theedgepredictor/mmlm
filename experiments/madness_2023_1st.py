@@ -11,7 +11,8 @@ from scipy.interpolate import UnivariateSpline
 import statsmodels.api as sm
 import collections
 
-DATA_PATH = './data/march-machine-learning-mania-2024/'
+from utils import DATA_PATH
+
 
 def prepare_data(df):
     dfswap = df[['Season', 'DayNum', 'LTeamID', 'LScore', 'WTeamID', 'WScore', 'WLoc', 'NumOT',
@@ -33,7 +34,7 @@ def prepare_data(df):
     output.location = output.location.astype(int)
 
     output['PointDiff'] = output['T1_Score'] - output['T2_Score']
-
+    output['PointDiffAgainst'] = output['T2_Score'] - output['T1_Score']
     return output
 
 
@@ -181,6 +182,8 @@ def preprocessing(sim_season=datetime.datetime.now().year):
                list(last14days_stats_T1.columns[2:999]) + \
                list(last14days_stats_T2.columns[2:999]) + \
                ["Seed_diff"] + ["T1_quality", "T2_quality"]
+
+
     sub = generate_submission_file(sim_season)
     sub['Season'] = sub['ID'].apply(lambda x: int(x.split('_')[0]))
     sub["T1_TeamID"] = sub['ID'].apply(lambda x: int(x.split('_')[1]))
@@ -213,10 +216,10 @@ def modeling(tourney_data, features, repeat_cv = 3):
     # param['objective'] = 'reg:linear'
     param['eval_metric'] = 'mae'
     param['booster'] = 'gbtree'
-    param['eta'] = 0.05  # change to ~0.02 for final run
+    param['eta'] = 0.025  # change to ~0.02 for final run
     param['subsample'] = 0.35
     param['colsample_bytree'] = 0.7
-    param['num_parallel_tree'] = 3  # recommend 10
+    param['num_parallel_tree'] = 10  # recommend 10
     param['min_child_weight'] = 40
     param['gamma'] = 10
     param['max_depth'] = 3
