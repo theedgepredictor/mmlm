@@ -386,6 +386,7 @@ def runner(sim_season, experiment, n_brackets=5000, predictions_prefix='./output
     submission_cols = ['RowId','Tournament','Bracket','Slot','Team']
     submission[submission_cols].to_csv(f"{prediction_path}submission.csv", index=False)
     meta.to_csv(f"{prediction_path}submission_metadata.csv", index=False)
+    return submission[submission_cols]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='MMLM Simulator')
