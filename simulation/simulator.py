@@ -298,8 +298,8 @@ class QuickTourneySimulator:
         return result_df, pd.DataFrame(metadata)
 
 
-def runner(sim_season, experiment, n_brackets=5000):
-    prediction_path = f'./output/{experiment}/{sim_season}/'
+def runner(sim_season, experiment, n_brackets=5000, predictions_prefix='./output',data_path='./data/march-machine-learning-mania-2024/'):
+    prediction_path = f'{predictions_prefix}/{experiment}/{sim_season}/'
 
     if not experiment == 'benchmark':
         try:
@@ -325,12 +325,12 @@ def runner(sim_season, experiment, n_brackets=5000):
         seeds_m = make_64_seeds(sim_season,'M')
         seeds_w = make_64_seeds(sim_season,'W')
     else:
-        new_seeds = pd.read_csv(DATA_PATH + "2024_tourney_seeds.csv")
+        new_seeds = pd.read_csv(data_path + "2024_tourney_seeds.csv")
         new_seeds['Season'] = 2024
         seeds_m = new_seeds.loc[new_seeds.Tournament=='M'].drop(columns='Tournament').copy()
         seeds_w = new_seeds.loc[new_seeds.Tournament=='W'].drop(columns='Tournament').copy()
 
-    round_slots = pd.read_csv(DATA_PATH + 'MNCAATourneySlots.csv')
+    round_slots = pd.read_csv(data_path + 'MNCAATourneySlots.csv')
     round_slots = round_slots[round_slots['Season'] == sim_season]
     round_slots = round_slots[round_slots['Slot'].str.contains('R')] # Filter out First Four
 
@@ -388,7 +388,7 @@ def runner(sim_season, experiment, n_brackets=5000):
     meta.to_csv(f"{prediction_path}submission_metadata.csv", index=False)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='MMLM Elo Prediction')
+    parser = argparse.ArgumentParser(description='MMLM Simulator')
     parser.add_argument('sim_season', type=int, help='The season to generate predictions for')
     parser.add_argument('--experiment', type=str, default='madness-2023-1st', help='The experiment to run')
     parser.add_argument('--n_brackets', type=int, default=10, help='Number of brackets to sim')
