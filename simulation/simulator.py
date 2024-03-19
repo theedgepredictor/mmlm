@@ -373,7 +373,7 @@ def runner(sim_season, experiment, n_brackets=5000, predictions_prefix='./output
     if 'index' in submission.columns:
         submission = submission.drop(columns='index')
     meta = pd.concat([meta_m, meta_w])
-    eval = EvaluationProcessor(sim_season, submission)
+    eval = EvaluationProcessor(sim_season, submission, data_path=data_path)
 
     os.makedirs(prediction_path, exist_ok=True)
     if sim_season != 2024:
