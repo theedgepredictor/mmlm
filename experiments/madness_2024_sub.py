@@ -447,6 +447,7 @@ def modeling(sim_season,tourney_data, features, repeat_cv = 3):
         with open(path+'hyperparams.json', 'w') as json_file:
             json.dump(param, json_file, indent=2)
         path = f'./output/madness-2024-sub-proba/{sim_season}/'
+        os.makedirs(path, exist_ok=True)
         with open(path+'hyperparams.json', 'w') as json_file:
             json.dump(param, json_file, indent=2)
 
@@ -463,6 +464,7 @@ def modeling(sim_season,tourney_data, features, repeat_cv = 3):
         with open(path+'hyperparams.json', 'w') as json_file:
             json.dump(param, json_file, indent=2)
         path = f'./output/madness-2024-sub/{sim_season}/'
+        os.makedirs(path, exist_ok=True)
         with open(path+'hyperparams.json', 'w') as json_file:
             json.dump(param, json_file, indent=2)
 
