@@ -151,9 +151,9 @@ class TournamentDataProcessor:
         return df_key
 
 class EvaluationProcessor:
-    def __init__(self, sim_season, df_prediction=None, single=True):
-        m_tourney = TournamentDataProcessor(DATA_PATH, gender='M')
-        w_tourney = TournamentDataProcessor(DATA_PATH, gender='W')
+    def __init__(self, sim_season, df_prediction=None, single=True, data_path='./data/march-machine-learning-mania-2024/'):
+        m_tourney = TournamentDataProcessor(data_path, gender='M')
+        w_tourney = TournamentDataProcessor(data_path, gender='W')
         self.df_combined = pd.concat([m_tourney.results, w_tourney.results])
         self.df_historical_profile = pd.concat([m_tourney.key, w_tourney.key])
         self.df_historical_profile['RowId'] = np.arange(self.df_historical_profile.shape[0])
